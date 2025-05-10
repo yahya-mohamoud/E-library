@@ -5,6 +5,7 @@ const addBook = document.querySelector(".addBook");
 const confirmBtn = document.querySelector(".submit");
 
 const myLibrary = [];
+let index = 0;
 
 function Book(author, title, pages, status) {
   this.title = title;
@@ -102,9 +103,10 @@ function display() {
     const deleteBtn = document.createElement('button')
     deleteBtn.classList.add('delete')
     deleteBtn.innerText = 'Delete'
+    deleteBtn.setAttribute('data-index', index)
 
     books.appendChild(readBtn)
-    books.appendChild(deleteBtn)
+    books.appendChild(deleteBtn, index)
     bookList.appendChild(books)
 
     handleDelete(deleteBtn)
@@ -118,10 +120,12 @@ display()
 
 
 function handleDelete(btn) {
-  btn.addEventListener('click', (index) => {
-    myLibrary.splice(index, 1)
-    display()
-  })
+     btn.addEventListener('click', (event) => {
+    const index = event.target.getAttribute('data-index');  // Retrieve index from data attribute
+    console.log(myLibrary.splice(index, 1));  // Removes the book at the correct index
+    console.log(myLibrary);
+    display();  // Re-renders the list
+  });
 }
 
 function handleStatus(btn, status) {
